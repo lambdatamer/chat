@@ -31,19 +31,16 @@ class Root extends Component{
 		return (
 			<div className="container">
 				<Helmet title="Chat app"/>
+				<MessageList
+					messages={messages}/>
+				<MessageForm
+					send={socketsSend}/>
 				<DevPanel
 					loaded={loaded}
 					connected={connected}
 					message={message}
 					connect={socketsConnect}
-					disconnect={socketsDisconnect}
-					/>
-				<MessageForm
-					send={socketsSend}
-				/>
-				<MessageList
-					messages={messages}
-					/>
+					disconnect={socketsDisconnect}/>
 			</div>
 		)	
 	}

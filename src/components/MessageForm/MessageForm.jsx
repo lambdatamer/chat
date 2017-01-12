@@ -1,14 +1,27 @@
 import React, { Component, PropTypes } from 'react'
 
 export default class MessageForm extends Component {
-	static propTypes = {
-		send: PropTypes.func.isRequired
-	}
-
-	onSubmit(e){
+	onSendBtnClick(e){
 		e.preventDefault()
-		this.props.send(this.refs.msgInput.value.trim())
+		this.sendMessage()
+	}
+	onInputKeyPress(e){
+		if(e.key == 'Enter'){
+			this.sendMessage()
+		}
+	}
+	sendMessage(){
+		const message = this.refs.msgInput.value.trim()
+		
+		if(message){
+			this.props.send(message)
+		}
+		
 		this.refs.msgInput.value = ''
+		this.refs.msgInput.focus()
+	}
+	componentDidMount(){
+		this.refs.msgInput.focus()
 	}
 	render() {
 		return (
@@ -18,10 +31,11 @@ export default class MessageForm extends Component {
 						<input 
 							className="form-control input" 
 							type="text"
+							onKeyPress={::this.onInputKeyPress}
 							ref="msgInput"></input>
 					</div>
 					<button type="submit" className="btn btn-success"
-						onClick={::this.onSubmit}
+						onClick={::this.onSendBtnClick}
 					>
 						Send
 					</button>
@@ -29,4 +43,8 @@ export default class MessageForm extends Component {
 			</div>
 		)
 	}
+}
+
+MessageForm.propTypes = {
+	send: PropTypes.func.isRequired
 }

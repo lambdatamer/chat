@@ -1,11 +1,12 @@
 import { 
-	CONNECTING, 
+	CONNECTING,
 	CONNECTED,
-	MESSAGE_SENDING, 
+	MESSAGE_SENDING,
+	MESSAGE_SENT,
 	DISCONNECT } from '../actionTypes'
 
 const initialState = {
-	loaded: false,
+	loaded: true,
 	connected: false,
 	message: 'init',
 }
@@ -26,12 +27,14 @@ export default function sockets(state = initialState, action) {
 			socket: action.payload
 		}
 	case MESSAGE_SENDING:
-		state.socket.send(encodeURI(action.payload))
 		return {...state,
 			message: 'Message sending...'
 		}
+	case MESSAGE_SENT:
+		return {...state,
+			message: 'Message sent.'
+		}
 	case DISCONNECT:
-		state.socket.disconnect()
 		return {...state, 
 			loaded: true,
 			connected: false,

@@ -47,12 +47,12 @@ io.sockets.on('connection', function(socket){
 		'time': rawTime
 	})
 
-	// socket.json.send({
-	// 		event: 'message',
-	// 		name: 'Server',
-	// 		text: 'Hello, ' + id,
-	// 		time: rawTime,
-	// 	})
+	socket.json.send({
+			event: 'messageReceived',
+			name: 'Server',
+			text: 'Hello, ' + id,
+			time: rawTime,
+		})
 
 	//Events
 	socket.on('message', function (msg) {
@@ -68,7 +68,7 @@ io.sockets.on('connection', function(socket){
 			event: 'messageSent',
 			name: id,
 			text: msg,
-			time: rawTime,
+			time: rawTime
 		})
 	})
 

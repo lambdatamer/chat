@@ -1,21 +1,26 @@
 import React, { Component, PropTypes } from 'react'
 
 export default class DevPanel extends Component{
-	static propTypes = {
-		loaded: PropTypes.bool.isRequired,
-		connected: PropTypes.bool.isRequired,
-		message: PropTypes.string.isRequired,
-		connect: PropTypes.func.isRequired,
-		disconnect: PropTypes.func.isRequired
+	componentDidMount(){
+		if(!this.props.connected){
+			this.props.connect()
+		}
 	}
-
+	onConnectBtnClick(){
+		if(!this.props.connected){
+			this.props.connect()
+		}
+	}
+	onDisconnectBtnClick(){
+		if(this.props.connected){
+			this.props.disconnect()
+		}
+	}
 	render(){
 		const { 
 			loaded, 
 			connected, 
-			message, 
-			connect, 
-			disconnect } = this.props
+			message, } = this.props
 
 		return(
 			<div className="dev-panel well">
@@ -27,16 +32,24 @@ export default class DevPanel extends Component{
 							value={`loaded = '${loaded}', connected='${connected}', message='${message}'`}/>
 				<button 
 					className="btn btn-primary"
-					onClick={connect}
+					onClick={::this.onConnectBtnClick}
 				>
 					Connect
 				</button>
 				<button 
 					className="btn btn-danger"
-					onClick={disconnect}>
+					onClick={::this.onDisconnectBtnClick}>
 					 Disconnect
 				</button>
 			</div>
 		)
 	}
+}
+
+DevPanel.propTypes = {
+	loaded: PropTypes.bool.isRequired,
+	connected: PropTypes.bool.isRequired,
+	message: PropTypes.string.isRequired,
+	connect: PropTypes.func.isRequired,
+	disconnect: PropTypes.func.isRequired
 }

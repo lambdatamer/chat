@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as actionCreators from '../actionCreators'
+import * as actionCreators from '../../actionCreators'
 import Helmet from 'react-helmet'
 
 import {
 	DevPanel,
 	MessageForm,
-	MessageList } from '../components'
+	MessageList } from '../../components'
 
 class Root extends Component{
 	static propTypes = {

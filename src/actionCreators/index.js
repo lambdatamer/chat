@@ -6,60 +6,76 @@ import {
 	MESSAGE_SENT,
 	MESSAGE_RECEIVED,
 	USER_CONNECTED,
-	USER_DISCONNECTED } from '../actionTypes'
+	USER_DISCONNECTED,
+	CHANGE_NICKNAME } from '../actionTypes'
 import io from 'socket.io-client'
 
 export function socketsConnect(){
 	return (dispatch) => {
-		const socket = io.connect()
+		const socket = io()
+		const ls = window.localStorage
+
+		if(!ls['nickname']){
+			dispatch({
+				type: CHANGE_NICKNAME
+			})
+			//TODO ask for a nickname
+		}
+		
+		const authData = {
+			uid: ls['uid'] || undefined,
+			nickname: ls['nickname'] || undefined
+		}
+		
+		socket.emit('auth', authData)
 
 		dispatch({
 			type: CONNECTING
 		})
 
-		socket.on('message', (msg) => {
-			switch(msg.event){
-			case 'connected':
-				dispatch({
+		socket.on('connected', (msg) => {
+			ls['uid'] = msg.uid
+			ls['nickname'] = msg.nickname
+
+			dispatch({
 					type: CONNECTED,
 					payload: socket
 				})
-				break
-			case 'messageReceived':
-				dispatch({
-					type: MESSAGE_RECEIVED,
-					payload: msg
-				})
-				break
-			case 'messageSent':
-				dispatch({
-					type: MESSAGE_SENT,
-					payload: msg
-				})
-				break
-			case 'userConnected':
-				dispatch({
-					type: USER_CONNECTED,
-					payload: msg
-				})
-				break
-			case 'userDisconnected':
-				dispatch({
-					type: USER_DISCONNECTED,
-					payload: msg
-				})
-				break
-			default:
-				console.error('Unhandled message from server')
-				console.log(msg)
-			}
+			console.log(ls)
+		})
+
+		socket.on('messageReceived', (msg) => {
+			dispatch({
+				type: MESSAGE_RECEIVED,
+				payload: msg
+			})
+		})
+
+		socket.on('messageSent', (msg) => {
+			dispatch({
+				type: MESSAGE_SENT
+			})
+		})
+
+		socket.on('userConnected', (msg) => {
+			dispatch({
+				type: USER_CONNECTED,
+				payload: msg
+			})
+		})
+
+		socket.on('userDisconnected', (msg) => {
+			dispatch({
+				type: USER_DISCONNECTED,
+				payload: msg
+			})
 		})
 	}
 }
 
 export function socketsSend(msg){
 	return (dispatch, getState) => {
-		getState().sockets.socket.send(encodeURI(msg))
+		getState().sockets.socket.emit('message', encodeURI(msg))
 		dispatch({
 			type: MESSAGE_SENDING
 		})

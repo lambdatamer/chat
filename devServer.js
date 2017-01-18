@@ -25,62 +25,93 @@ var wpds = new WebpackDevServer(webpack(config), {
 	console.log('Listening at http://localhost:3000/')
 })
 
+/*
+ * Socket.io
+ */
 
 var io = require('socket.io').listen(3001)
 
-console.log('Listening sockets at :3001')
+var clients = {}
 
-io.sockets.on('connection', function(socket){
+io.on('connection', function(socket){
+
+	console.log('user connected')
 	//Connecting
-	var id = (socket.id).toString().substr(0, 5)
-	var time = new Date
-	var rawTime = time.getTime()
-	console.log('User connected: ' + id + ' at ' + time.toLocaleTimeString())
-	socket.json.send({
-		'event': 'connected',
-		'name': id,
-		'time': rawTime
-	})
-	socket.broadcast.json.send({
-		'event': 'userConnected',
-		'name': id,
-		'time': rawTime
-	})
+	socket.on('auth', function(msg) {
+		var uid = msg.uid
+		var nickname = msg.nickname
 
-	socket.json.send({
-			event: 'messageReceived',
-			name: 'Server',
-			text: 'Hello, ' + id,
-			time: rawTime,
+		if(uid != undefined && uid in clients){
+				clients[uid].connections.push(socket.id)
+		}else{
+			if(uid == undefined){
+				uid = 'u' + Math.floor(Math.random() * 1000000)
+				while(clients[uid]){
+					uid = 'u' + Math.floor(Math.random() * 1000000)
+				}
+			}
+
+			if(!nickname){
+				nickname = 'Anonimous user #' + uid.slice(1)
+			}
+
+			clients[uid] = {
+				nickname: nickname,
+				connections: []
+			}
+
+			clients[uid].connections.push(socket.id)
+
+			var time = new Date
+			var rawTime = time.getTime()
+
+			socket.broadcast.emit('userConnected',{
+				name: nickname
+			})
+
+			console.log('User connected: ' + clients[uid].nickname + ' at ' + time.toLocaleTimeString())
+		}
+		socket.emit('connected', {
+			uid: uid,
+			nickname: nickname
 		})
 
-	//Events
-	socket.on('message', function (msg) {
-		var time = new Date
-		var rawTime = time.getTime()
-		socket.broadcast.json.send({
-			event: 'messageReceived',
-			name: id,
-			text: msg,
-			time: rawTime
-		})
-		socket.json.send({
-			event: 'messageSent',
-			name: id,
-			text: msg,
-			time: rawTime
-		})
+		socket.uid = uid
+		socket.nickname = nickname
+
+		console.log(clients)
 	})
 
 	socket.on('disconnect', function(){
 		var time = new Date
 		var rawTime = time.getTime()
-		io.sockets.json.send({
-			'event': 'userDisconnected', 
-			'name': id, 
-			'time': rawTime
-		});
-		console.log('User disconnected: ' + id + ' at ' + time.toLocaleTimeString())
+		var uid = socket.uid
+		var nickname = socket.nickname
+
+		if(clients[uid] && clients[uid].connections.length === 1){
+			io.sockets.emit('userDisconnected', {
+				name: clients[uid].nickname
+			})
+			console.log('User disconnected: ' + clients[uid].nickname + ' at ' + time.toLocaleTimeString())
+			delete clients[uid]
+		}else if (clients[uid]){
+			clients[uid].connections = clients[uid].connections.splice((clients[uid].connections.indexOf(uid)), 1)
+		}
+		console.log(clients)
 	})
 
+	//Events
+	socket.on('message', function (msg) {
+		var nickname = socket.nickname
+		var time = new Date
+		var rawTime = time.getTime()
+		io.emit('messageReceived', {
+			name: nickname,
+			text: msg,
+			time: rawTime
+		})
+	})
 })
+
+
+console.log('Listening sockets at :3001')

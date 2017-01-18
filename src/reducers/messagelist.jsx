@@ -11,17 +11,6 @@ const initialState = {
 export default function messageList(state = initialState, action) {
 	switch(action.type){
 
-	case MESSAGE_SENT:
-		return {...state,
-			messages: state.messages.concat({
-				type: 'userMessage',
-				name: action.payload.name,
-				text: action.payload.text,
-				time: action.payload.time
-			})
-		}
-		break
-
 	case MESSAGE_RECEIVED:
 		return {...state,
 			messages: state.messages.concat({

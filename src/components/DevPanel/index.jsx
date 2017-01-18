@@ -25,11 +25,11 @@ export default class DevPanel extends Component{
 		return(
 			<div className="dev-panel well">
 				<textarea
-							className="form-control"
-							rows="1"
-							readOnly
-							placeholder="Waiting ..."
-							value={`loaded = '${loaded}', connected='${connected}', message='${message}'`}/>
+					className="form-control"
+					rows="1"
+					readOnly
+					placeholder="Waiting ..."
+					value={`loaded = '${loaded}', connected='${connected}', message='${message}'`}/>
 				<button 
 					className="btn btn-primary"
 					onClick={::this.onConnectBtnClick}

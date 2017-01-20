@@ -7,10 +7,6 @@ var wpds = new WebpackDevServer(webpack(config), {
 	hot: true,
 	historyApiFallback: true,
 	proxy: {
-		'/socket.io.js': {
-			target: 'http://localhost:3001/socket.io/socket.io.js',
-			secure: false
-		},
 		'/socket.io/**': {
 			target: 'http://localhost:3001/socket.io/',
 			secure: false
@@ -35,7 +31,6 @@ var clients = {}
 
 io.on('connection', function(socket){
 
-	console.log('user connected')
 	//Connecting
 	socket.on('auth', function(msg) {
 		var uid = msg.uid
@@ -45,10 +40,12 @@ io.on('connection', function(socket){
 				clients[uid].connections.push(socket.id)
 		}else{
 			if(uid == undefined){
-				uid = 'u' + Math.floor(Math.random() * 1000000)
-				while(clients[uid]){
-					uid = 'u' + Math.floor(Math.random() * 1000000)
-				}
+				do{
+					uid = 'u' + Math.floor(Math.random() * 10000000)
+					while(uid.length < 8){
+						uid += '0'
+					}
+				}while(clients[uid])
 			}
 
 			if(!nickname){

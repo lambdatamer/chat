@@ -41,7 +41,6 @@ export function socketsConnect(){
 					type: CONNECTED,
 					payload: socket
 				})
-			console.log(ls)
 		})
 
 		socket.on('messageReceived', (msg) => {

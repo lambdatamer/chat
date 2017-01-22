@@ -6,6 +6,11 @@ export default class DevPanel extends Component{
 			this.props.connect()
 		}
 	}
+	componentWillUnmount() {
+		if(this.props.connected){
+			this.props.disconnect()
+		}
+	}
 	onConnectBtnClick(){
 		if(!this.props.connected){
 			this.props.connect()
@@ -16,6 +21,12 @@ export default class DevPanel extends Component{
 			this.props.disconnect()
 		}
 	}
+	onShowBtnClick(){
+		console.log(window.localStorage)
+	}
+	onClearBtnClick(){
+		window.localStorage.clear()
+	}
 	render(){
 		const { 
 			loaded, 
@@ -23,24 +34,39 @@ export default class DevPanel extends Component{
 			message, } = this.props
 
 		return(
-			<div className="dev-panel well">
-				<textarea
-					className="form-control"
-					rows="1"
-					readOnly
-					placeholder="Waiting ..."
-					value={`loaded = '${loaded}', connected='${connected}', message='${message}'`}/>
-				<button 
-					className="btn btn-primary"
-					onClick={::this.onConnectBtnClick}
-				>
-					Connect
-				</button>
-				<button 
-					className="btn btn-danger"
-					onClick={::this.onDisconnectBtnClick}>
-					 Disconnect
-				</button>
+			<div className="panel panel-default">
+				<div className="panel-heading">
+					{`loaded = '${loaded}', connected='${connected}', message='${message}'`}
+				</div>
+				<div className="panel-body">
+					<div className="well" style={{display: 'inline-block', width: '50%'}}>
+						<button 
+							className="btn btn-primary btn-block"
+							onClick={::this.onConnectBtnClick}
+							disabled={connected}
+						>
+							Connect
+						</button>
+						<button 
+							className="btn btn-danger btn-block"
+							onClick={::this.onDisconnectBtnClick}
+							disabled={!connected}>
+							Disconnect
+						</button>
+					</div>
+					<div className="well" style={{display: 'inline-block', width: '50%'}}>
+						<button 
+							className="btn btn-success  btn-block"
+							onClick={::this.onShowBtnClick}>
+							Show LS
+						</button>
+						<button 
+							className="btn btn-warning  btn-block" 
+							onClick={::this.onClearBtnClick}>
+							Clear LS
+						</button>
+					</div>
+				</div>
 			</div>
 		)
 	}

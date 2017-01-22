@@ -12,8 +12,7 @@ export default function configureStore(initialState) {
 	)
 	
 	if(module.hot){
-		// В Redux нужно явно указывать, что reducers 
-		// поддерживают hot reload
+		// Enable Webpack hot module replacement for reducers
 		module.hot.accept('../reducers', () => {
 			const nextRootReducer = require('../reducers')
 			store.replaceReducer(nextRootReducer)

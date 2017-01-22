@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../../actionCreators'
-import Helmet from 'react-helmet'
 
 import {
 	DevPanel,
 	MessageForm,
 	MessageList } from '../../components'
 
-class Root extends Component{
+class App extends Component{
 	static propTypes = {
 		actions: PropTypes.object.isRequired,
 		sockets: PropTypes.object.isRequired,
@@ -30,7 +29,6 @@ class Root extends Component{
 			socketsSend } = this.props.actions
 		return (
 			<div className="container">
-				<Helmet title="Chat app"/>
 				<MessageList
 					messages={messages}/>
 				<MessageForm
@@ -46,7 +44,12 @@ class Root extends Component{
 	}
 }
 
-function mapStateToProps(state) {
+App.propTypes = {
+
+}
+
+
+function mapStateToProps(state){
 	return Object.assign({}, state)
 }
 
@@ -56,4 +59,4 @@ function mapDispatchToProps(dispatch){
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Root)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

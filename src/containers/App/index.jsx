@@ -2,11 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../../actionCreators'
+import './style.css'
 
 import {
 	DevPanel,
-	MessageForm,
-	MessageList } from '../../components'
+	MessageWindow,
+	UserList } from '../../components'
 
 class App extends Component{
 	static propTypes = {
@@ -23,22 +24,34 @@ class App extends Component{
 		const {
 			messages
 		} = this.props.messageList
+		const {
+			userList
+		} = this.props.userList
 		const { 
 			socketsConnect, 
 			socketsDisconnect, 
 			socketsSend } = this.props.actions
+		
 		return (
 			<div className="container">
-				<MessageList
-					messages={messages}/>
-				<MessageForm
-					send={socketsSend}/>
+				<div className="row ">
+					<div className="col-md-9">
+						<MessageWindow 
+							messages={messages}
+							socketsSend={socketsSend} />
+					</div>
+					<div className="col-md-3">
+						<UserList
+							userList={userList} />
+					</div>
+				</div>
+
 				<DevPanel
 					loaded={loaded}
 					connected={connected}
 					message={message}
 					connect={socketsConnect}
-					disconnect={socketsDisconnect}/>
+					disconnect={socketsDisconnect} />
 			</div>
 		)	
 	}

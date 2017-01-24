@@ -39,7 +39,10 @@ export function socketsConnect(){
 
 			dispatch({
 					type: CONNECTED,
-					payload: socket
+					payload: {
+						socket: socket,
+						userList: msg.userList || {}
+					}
 				})
 		})
 

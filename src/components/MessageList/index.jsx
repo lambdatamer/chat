@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Message } from '..'
+import './style.css'
 
 export default class MessageList extends Component {
 	render() {
@@ -19,11 +20,8 @@ export default class MessageList extends Component {
 		})
 
 		return (
-			<div>
-				<h1>Message List</h1>
-				<div className="list">
+			<div className="panel-body">
 				{list}
-				</div>
 			</div>
 		)
 	}

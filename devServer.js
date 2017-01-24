@@ -1,8 +1,8 @@
-var webpack = require('webpack')
-var WebpackDevServer = require('webpack-dev-server')
-var config = require('./webpack.config')
+let webpack = require('webpack')
+let WebpackDevServer = require('webpack-dev-server')
+let config = require('./webpack.config')
 
-var wpds = new WebpackDevServer(webpack(config), {
+let wpds = new WebpackDevServer(webpack(config), {
 	publicPath: config.output.publicPath,
 	hot: true,
 	historyApiFallback: true,
@@ -13,7 +13,7 @@ var wpds = new WebpackDevServer(webpack(config), {
 		}
 	}
 })
-.listen(3000, 'localhost', function (err, result) {
+.listen(3000, 'localhost', (err, result) => {
 	if (err) {
 		return console.log(err)
 	}
@@ -25,16 +25,16 @@ var wpds = new WebpackDevServer(webpack(config), {
  * Socket.io
  */
 
-var io = require('socket.io').listen(3001)
+let io = require('socket.io').listen(3001)
 
-var clients = {}
+let clients = {}
 
-io.on('connection', function(socket){
+io.on('connection', (socket) => {
 
 	//Connecting
-	socket.on('auth', function(msg) {
-		var uid = msg.uid
-		var nickname = msg.nickname
+	socket.on('auth', (msg) => {
+		let uid = msg.uid
+		let nickname = msg.nickname
 
 		if(uid != undefined && uid in clients){
 				clients[uid].connections.push(socket.id)
@@ -49,7 +49,7 @@ io.on('connection', function(socket){
 			}
 
 			if(!nickname){
-				nickname = 'Anonimous user #' + uid.slice(1)
+				nickname = `Anonimous user #${uid.slice(1)}`
 			}
 
 			clients[uid] = {
@@ -59,18 +59,27 @@ io.on('connection', function(socket){
 
 			clients[uid].connections.push(socket.id)
 
-			var time = new Date
-			var rawTime = time.getTime()
+			let time = new Date()
+			let rawTime = time.getTime()
 
 			socket.broadcast.emit('userConnected',{
-				name: nickname
+				nickname: nickname,
+				uid: uid
 			})
 
-			console.log('User connected: ' + clients[uid].nickname + ' at ' + time.toLocaleTimeString())
+			console.log(`User connected: ${clients[uid].nickname} at ${time.toLocaleTimeString()}`)
 		}
+
+		let userList = {}
+
+		for(uid in clients){
+			userList[uid] = clients[uid].nickname
+		}
+
 		socket.emit('connected', {
 			uid: uid,
-			nickname: nickname
+			nickname: nickname,
+			userList: userList
 		})
 
 		socket.uid = uid
@@ -79,17 +88,18 @@ io.on('connection', function(socket){
 		console.log(clients)
 	})
 
-	socket.on('disconnect', function(){
-		var time = new Date
-		var rawTime = time.getTime()
-		var uid = socket.uid
-		var nickname = socket.nickname
+	socket.on('disconnect', () => {
+		let time = new Date()
+		let rawTime = time.getTime()
+		let uid = socket.uid
+		let nickname = socket.nickname
 
 		if(clients[uid] && clients[uid].connections.length === 1){
 			io.sockets.emit('userDisconnected', {
-				name: clients[uid].nickname
+				nickname: nickname,
+				uid: uid
 			})
-			console.log('User disconnected: ' + clients[uid].nickname + ' at ' + time.toLocaleTimeString())
+			console.log(`User disconnected: ${clients[uid].nickname} at ${time.toLocaleTimeString()}`)
 			delete clients[uid]
 		}else if (clients[uid]){
 			clients[uid].connections = clients[uid].connections.splice((clients[uid].connections.indexOf(uid)), 1)
@@ -98,14 +108,26 @@ io.on('connection', function(socket){
 	})
 
 	//Events
-	socket.on('message', function (msg) {
-		var nickname = socket.nickname
-		var time = new Date
-		var rawTime = time.getTime()
+	socket.on('message', (msg) => {
+		let nickname = socket.nickname
+		let time = new Date()
+		let rawTime = time.getTime()
 		io.emit('messageReceived', {
 			name: nickname,
 			text: msg,
 			time: rawTime
+		})
+	})
+
+	socket.on('nicknameChange', (msg) => {
+		let nicknameTemp = msg.nickname
+		
+		nicknameTemp = nicknameTemp.length > 32 ? nicknameTemp.slice(0, 31) : nicknameTemp
+
+		socket.nickname = clients[uid].nickname = msg.nickname
+		
+		socket.emit('nicknameChangeSuccess', {
+			nickname: socket.nickname
 		})
 	})
 })

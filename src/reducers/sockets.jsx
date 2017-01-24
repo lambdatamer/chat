@@ -9,6 +9,7 @@ const initialState = {
 	loaded: true,
 	connected: false,
 	message: 'init',
+	socket: undefined
 }
 
 export default function sockets(state = initialState, action) {
@@ -24,7 +25,7 @@ export default function sockets(state = initialState, action) {
 			loaded: true,
 			connected: true,
 			message: 'Connected.',
-			socket: action.payload
+			socket: action.payload.socket
 		}
 	case MESSAGE_SENDING:
 		return {...state,

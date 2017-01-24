@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import './style.css'
 
 export default class Message extends Component {
 	render() {
@@ -7,10 +8,12 @@ export default class Message extends Component {
 			text,
 			time } = this.props
 		return (
-			<div className="panel panel-default">
-				<strong className="author">{name}:</strong>
-				<div className="text">{text}</div>
-				<p className="time text-right">at {time}</p>
+			<div className="message">
+				<div className="message-name">{name}</div>
+				<div className="message-time small hidden-xs">{time}</div>
+				<div className="message-text">{text}</div>
+				<div className="message-time small visible-xs">{time}</div>
+				<div className="clearfix"></div>
 			</div>
 		)
 	}

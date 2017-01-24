@@ -1,0 +1,11 @@
+.user-list> div.panel-body{
+	background: #F5F5F5;
+	height: calc(100% - 40px);
+	border: 1px solid #ddd;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.user-list{
+	height: 100%;
+}

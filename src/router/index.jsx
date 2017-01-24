@@ -8,10 +8,6 @@ export const routes = (
 		<Route path="/" component={Nav}>
 			<Route path="chat" component={App} />
 			<Route path="hello" component={Intro} />
-			{/*
-			<Route path="nickname" />
-			<Route path="about" />
-			*/}
 			<Route path="*" component={NotFound} />
 		</Route>
 		

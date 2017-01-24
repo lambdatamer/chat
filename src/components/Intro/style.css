@@ -1,0 +1,31 @@
+.sign-in-wrapper{
+	position: relative;
+}
+
+.sign-in{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border: 0;
+}
+
+.sign-in-greeting{
+	margin-bottom: 15px;
+}
+
+.sign-in input{
+	margin-bottom: 15px;
+}
+
+.sign-in .panel-body{
+	border: 1px solid #ddd;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+.sign-in .panel-heading{
+	background: #0D1B1E;
+	color: #FFF;
+	border: 0;
+}

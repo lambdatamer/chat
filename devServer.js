@@ -67,13 +67,19 @@ io.on('connection', (socket) => {
 				uid: uid
 			})
 
+		socket.uid = uid
+		socket.nickname = nickname
+
 			console.log(`User connected: ${clients[uid].nickname} at ${time.toLocaleTimeString()}`)
 		}
+		
 
 		let userList = {}
 
-		for(uid in clients){
-			userList[uid] = clients[uid].nickname
+		for(client in clients){
+			if(client !== socket.uid){
+				userList[uid] = clients[uid].nickname
+			}
 		}
 
 		socket.emit('connected', {
@@ -82,9 +88,8 @@ io.on('connection', (socket) => {
 			userList: userList
 		})
 
-		socket.uid = uid
-		socket.nickname = nickname
 
+		console.log("Now connected:")
 		console.log(clients)
 	})
 

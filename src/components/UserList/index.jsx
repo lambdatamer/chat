@@ -16,7 +16,7 @@ export default class UserList extends Component {
 		}
 
 		return (
-			<div className="panel panel-default">
+			<div className="panel panel-default user-list">
 				<div className="panel-heading">
 					Users
 				</div>

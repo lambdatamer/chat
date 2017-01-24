@@ -20,7 +20,7 @@ export default class MessageList extends Component {
 		})
 
 		return (
-			<div className="panel-body">
+			<div className="panel-body message-list">
 				{list}
 			</div>
 		)

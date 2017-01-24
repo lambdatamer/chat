@@ -19,26 +19,7 @@ class Nav extends Component {
 		return (
 			<div>
 				<Helmet title="Chat app"/>
-				<nav className="navbar navbar-default container">
-					<div className="container-fluid">
-						<ul className="nav navbar-nav">
-							<li><NavLink 
-								to="/chat"
-								>Chat</NavLink></li>
-							<li><NavLink 
-								to="/nickname"
-								>Nickname</NavLink></li>
-						</ul>
-						<ul className="nav navbar-nav navbar-right">
-							<li><NavLink 
-								to="/about"
-								>About</NavLink></li>
-						</ul>
-					</div>
-				</nav>
-				<div className="container">
-					{this.props.children}
-				</div>
+				{this.props.children}
 			</div>
 		)
 	}

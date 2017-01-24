@@ -34,7 +34,13 @@ class App extends Component{
 		
 		return (
 			<div className="container">
-				<div className="row ">
+				<DevPanel
+					loaded={loaded}
+					connected={connected}
+					message={message}
+					connect={socketsConnect}
+					disconnect={socketsDisconnect} />
+				<div className="row chat-app">
 					<div className="col-md-9">
 						<MessageWindow 
 							messages={messages}
@@ -46,12 +52,6 @@ class App extends Component{
 					</div>
 				</div>
 
-				<DevPanel
-					loaded={loaded}
-					connected={connected}
-					message={message}
-					connect={socketsConnect}
-					disconnect={socketsDisconnect} />
 			</div>
 		)	
 	}

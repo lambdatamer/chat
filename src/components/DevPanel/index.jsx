@@ -34,7 +34,7 @@ export default class DevPanel extends Component{
 			message, } = this.props
 
 		return(
-			<div className="panel panel-default" hidden>
+			<div className="panel panel-default" >
 				<div className="panel-heading">
 					{`loaded = '${loaded}', connected='${connected}', message='${message}'`}
 				</div>

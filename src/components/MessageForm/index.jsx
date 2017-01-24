@@ -8,6 +8,10 @@ export default class MessageForm extends Component {
 			this.sendMessage()
 		}
 	}
+	onSendBtnClick(){
+		this.sendMessage()
+		this.refs.msgInput.focus()
+	}
 	sendMessage(){
 		const message = this.refs.msgInput.innerText.trim()
 		console.log(message)
@@ -23,12 +27,21 @@ export default class MessageForm extends Component {
 	}
 	render() {
 		return (
-			<div className="panel-footer">
-				<div
-					contentEditable
-					className="form-control message-form-text"
-					onKeyPress={::this.onInputKeyPress}
-					ref="msgInput"></div>
+			<div className="container panel-footer message-form">
+				<div className="row">
+					<div className="col-md-12 col-sm-10 col-xs-9 message-form-text">
+						<div
+							contentEditable
+							className="form-control"
+							onKeyPress={::this.onInputKeyPress}
+							ref="msgInput"></div>
+					</div>
+					<div className="col-sm-2 col-xs-3 hidden-lg hidden-md send-btn-wrapper">
+						<div className="btn btn-primary center-block "
+							onClick={::this.onSendBtnClick}
+						>Send</div>
+					</div>
+				</div>
 			</div>
 		)
 	}

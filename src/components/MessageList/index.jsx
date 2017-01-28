@@ -1,8 +1,21 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import { Message } from '..'
 import './style.css'
 
 export default class MessageList extends Component {
+	componentDidUpdate(prevProps, prevState) {
+		const node = ReactDOM.findDOMNode(this)
+
+		if(node.scrollHeight - node.scrollTop - node.clientHeight === node.scrollHeight - this.prevHeight){
+			node.scrollTop = node.scrollHeight
+		}
+		this.prevHeight = node.scrollHeight
+	}
+	componentDidMount() {
+		const node = ReactDOM.findDOMNode(this)
+		this.prevHeight = node.scrollHeight
+	}
 	render() {
 		const { messages } = this.props
 
@@ -20,7 +33,7 @@ export default class MessageList extends Component {
 		})
 
 		return (
-			<div className="panel-body message-list">
+			<div className="panel-body message-list" ref='list'>
 				{list}
 			</div>
 		)

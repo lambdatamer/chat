@@ -1,19 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import './style.css'
 
-export default class UserList extends Component {
+export default class UsersList extends Component {
 	render() {
-		const { userList } = this.props
-		let users = []
-		let key = 0
+		const { usersList } = this.props
 
-		for(let uid in this.props.userList){
-			users.push(
-				<tr key={key++}><td>
-					{userList[uid]}
-				</td></tr>
-			)
-		}
+		const users = usersList.map((user, index) => {
+			return(
+				<tr key={index}><td>{user.nickname}</td></tr>
+				)
+		})
 
 		return (
 			<div className="panel panel-default user-list">
@@ -31,6 +27,6 @@ export default class UserList extends Component {
 	}
 }
 
-UserList.propTypes = {
-	userList: PropTypes.object
+UsersList.propTypes = {
+	usersList: PropTypes.array.isRequired
 }

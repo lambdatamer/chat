@@ -13,15 +13,8 @@ import io from 'socket.io-client'
 export function socketsConnect(){
 	return (dispatch) => {
 		const socket = io()
-		const ls = window.localStorage
+		const ls = localStorage
 
-		if(!ls['nickname']){
-			dispatch({
-				type: CHANGE_NICKNAME
-			})
-			//TODO ask for a nickname
-		}
-		
 		const authData = {
 			uid: ls['uid'] || undefined,
 			nickname: ls['nickname'] || undefined
@@ -41,7 +34,7 @@ export function socketsConnect(){
 					type: CONNECTED,
 					payload: {
 						socket: socket,
-						userList: msg.userList || {}
+						usersList: msg.usersList || []
 					}
 				})
 		})

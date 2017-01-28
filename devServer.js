@@ -33,13 +33,16 @@ io.on('connection', (socket) => {
 
 	//Connecting
 	socket.on('auth', (msg) => {
-		let uid = msg.uid
-		let nickname = msg.nickname
+		let uid = msg.uid || undefined
+		let nickname = msg.nickname || undefined
 
-		if(uid != undefined && uid in clients){
+		//Check if user already connected
+		if(uid !== undefined && uid in clients){
 				clients[uid].connections.push(socket.id)
 		}else{
-			if(uid == undefined){
+			//Else check, is he already has nickname and uid
+			//And generate them if needed
+			if(uid === undefined){
 				do{
 					uid = 'u' + Math.floor(Math.random() * 10000000)
 					while(uid.length < 8){
@@ -48,48 +51,47 @@ io.on('connection', (socket) => {
 				}while(clients[uid])
 			}
 
-			if(!nickname){
+			if(nickname === undefined){
 				nickname = `Anonimous user #${uid.slice(1)}`
 			}
 
 			clients[uid] = {
 				nickname: nickname,
-				connections: []
+				connections: [socket.id]
 			}
 
-			clients[uid].connections.push(socket.id)
-
-			let time = new Date()
-			let rawTime = time.getTime()
 
 			socket.broadcast.emit('userConnected',{
-				nickname: nickname,
+				nickname: clients[uid].nickname,
 				uid: uid
 			})
 
-		socket.uid = uid
-		socket.nickname = nickname
-
+			let time = new Date()
 			console.log(`User connected: ${clients[uid].nickname} at ${time.toLocaleTimeString()}`)
 		}
-		
 
-		let userList = {}
+		socket.uid = uid
+		socket.nickname = clients[uid].nickname
 
-		for(client in clients){
-			if(client !== socket.uid){
-				userList[uid] = clients[uid].nickname
-			}
-		}
+		let allUids = Object.keys(clients)
+		let usersList = []
 
-		socket.emit('connected', {
-			uid: uid,
-			nickname: nickname,
-			userList: userList
+		allUids.forEach((uid) => {
+			if(uid !== socket.uid)
+			usersList.push({
+				uid: uid,
+				nickname: clients[uid].nickname
+			})
 		})
 
 
-		console.log("Now connected:")
+		socket.emit('connected', {
+			uid: socket.uid,
+			nickname: socket.nickname,
+			usersList: usersList
+		})
+
+		console.log("\nNow connected:")
 		console.log(clients)
 	})
 

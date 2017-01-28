@@ -3,8 +3,8 @@ import { reducer as formReducer } from 'redux-form'
 import sockets from './sockets'
 import messageList from './messagelist'
 import user from './user'
-import userList from './userlist'
+import usersList from './userslist'
 
 export default combineReducers({
-	sockets, messageList, user, userList
+	sockets, messageList, user, usersList
 })

@@ -7,7 +7,7 @@ import './style.css'
 import {
 	DevPanel,
 	MessageWindow,
-	UserList } from '../../components'
+	UsersList } from '../../components'
 
 class App extends Component{
 	static propTypes = {
@@ -21,12 +21,15 @@ class App extends Component{
 			loaded, 
 			connected, 
 			message } = this.props.sockets
+		
 		const {
 			messages
 		} = this.props.messageList
+		
 		const {
-			userList
-		} = this.props.userList
+			usersList
+		} = this.props.usersList
+		
 		const { 
 			socketsConnect, 
 			socketsDisconnect, 
@@ -47,8 +50,8 @@ class App extends Component{
 							socketsSend={socketsSend} />
 					</div>
 					<div className="col-md-3">
-						<UserList
-							userList={userList} />
+						<UsersList
+							usersList={usersList} />
 					</div>
 				</div>
 

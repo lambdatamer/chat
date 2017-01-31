@@ -12,6 +12,7 @@
 }
 
 .message-time{
+	color: #999;
 	float: right;
 	display: inline-block;
 }

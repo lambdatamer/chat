@@ -5,7 +5,7 @@ export default class Intro extends Component {
 	onJoinBtnClick(){
 		const ls = window.localStorage
 		ls['nickname'] = this.refs.NicknameField.value
-		this.context.router.push('/chat')
+		window.location.reload()
 	}
 	onNickNameChange(){
 		if(this.refs.NicknameField.value.trim() === ''){
@@ -19,8 +19,8 @@ export default class Intro extends Component {
 	}
 	render() {
 		return (
-			<div className="container signin-wrapper">
-				<div className="panel panel-default center-block sign-in">
+			<div className="sign-in-wrapper">
+				<div className="panel panel-default sign-in">
 					<div className="panel-heading">
 						<div className="text-center">Hello!</div>
 					</div>

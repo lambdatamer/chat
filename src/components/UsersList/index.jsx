@@ -11,6 +11,8 @@ export default class UsersList extends Component {
 				)
 		})
 
+		const userName = localStorage['nickname']
+
 		return (
 			<div className="panel panel-default user-list">
 				<div className="panel-heading">
@@ -18,8 +20,22 @@ export default class UsersList extends Component {
 				</div>
 				<div className="panel-body">
 					<table className="table">
-					<thead><tr><th>You</th></tr></thead>
-					<tbody>{users}</tbody>
+						<thead>
+							<tr><th>
+								{
+								false ?
+									userName
+								:
+									(
+									<div className="form-group input-group btn-group nick-form">
+										<input className="form-control" placeholder={userName}></input>
+										<button className="btn btn-primary">OK</button>
+									</div>
+									)
+								}
+								</th></tr>
+						</thead>
+						<tbody>{users}</tbody>
 					</table>
 				</div>
 			</div>

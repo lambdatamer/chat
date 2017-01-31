@@ -9,3 +9,8 @@
 .user-list{
 	height: 100%;
 }
+
+.nick-form{
+	display: flex;
+	align-items: stretch;
+}

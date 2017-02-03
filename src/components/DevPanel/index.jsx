@@ -22,7 +22,7 @@ export default class DevPanel extends Component{
 		}
 	}
 	onShowBtnClick(){
-		console.log(window.localStorage)
+		console.log(window.localStorage) //eslint-disable-line no-console
 	}
 	onClearBtnClick(){
 		window.localStorage.clear()
@@ -34,7 +34,7 @@ export default class DevPanel extends Component{
 			message, } = this.props
 
 		return(
-			<div className="panel panel-default hidden" >
+			<div className="panel panel-default" >
 				<div className="panel-heading">
 					{`loaded = '${loaded}', connected='${connected}', message='${message}'`}
 				</div>

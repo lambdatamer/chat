@@ -18,5 +18,6 @@ export default class MessageWindow extends Component {
 }
 
 MessageWindow.propTypes = {
-
+	messages: PropTypes.array.isRequired,
+	socketsSend: React.PropTypes.func.isRequired
 }

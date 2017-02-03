@@ -1,4 +1,4 @@
-import { Route, IndexRoute } from 'react-router'
+import { Route } from 'react-router'
 import React from 'react'
 import { App, Nav } from '../containers'
 import { Intro, NotFound} from '../components'

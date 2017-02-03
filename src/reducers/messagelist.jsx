@@ -1,8 +1,4 @@
-import { 
-	MESSAGE_RECEIVED, 
-	MESSAGE_SENT,
-	USER_CONNECTED,
-	USER_DISCONNECTED } from '../actionTypes'
+import * as actionTypes from '../actionTypes'
 
 const initialState = {
 	messages: []
@@ -11,7 +7,7 @@ const initialState = {
 export default function messageList(state = initialState, action) {
 	switch(action.type){
 
-	case MESSAGE_RECEIVED:
+	case actionTypes.MESSAGE_RECEIVED:
 		return {...state,
 			messages: state.messages.concat({
 				type: 'message',
@@ -20,19 +16,6 @@ export default function messageList(state = initialState, action) {
 				time: action.payload.time
 			})
 		}
-
-		break
-
-	case USER_CONNECTED:
-		return state
-
-		break
-
-	case USER_DISCONNECTED:
-		return state
-
-		break
-
 	default: 
 		return state
 	}

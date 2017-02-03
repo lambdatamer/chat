@@ -1,17 +1,16 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import './style.css'
 
 export default class Intro extends Component {
 	onJoinBtnClick(){
-		const ls = window.localStorage
-		ls['nickname'] = this.refs.NicknameField.value
-		window.location.reload()
+		localStorage['nickname'] = this.refs.NicknameField.value
+		location.reload()
 	}
-	onNickNameChange(){
+	onNicknameChange(){
 		if(this.refs.NicknameField.value.trim() === ''){
-			this.refs.JoinBtn.setAttribute('disabled', true)
+			this.refs.joinBtn.setAttribute('disabled', true)
 		}else{
-			this.refs.JoinBtn.removeAttribute('disabled')
+			this.refs.joinBtn.removeAttribute('disabled')
 		}
 	}
 	componentDidMount() {
@@ -29,11 +28,11 @@ export default class Intro extends Component {
 						<input className="form-control"
 							type="text"
 							ref="NicknameField"
-							onChange={::this.onNickNameChange}
+							onChange={::this.onNicknameChange}
 							placeholder="Type your nickname..."
 							/>
 						<button className="btn btn-block btn-primary"
-							ref="JoinBtn"
+							ref="joinBtn"
 							onClick={::this.onJoinBtnClick}>Join chat</button>
 					</div>
 				</div>
@@ -42,6 +41,3 @@ export default class Intro extends Component {
 	}
 }
 
-Intro.propTypes = {
-
-}

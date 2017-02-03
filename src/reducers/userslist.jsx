@@ -1,38 +1,51 @@
-import {
-	CONNECTED,
-	USER_CONNECTED,
-	USER_DISCONNECTED
-} from '../actionTypes'
+import * as actionTypes from '../actionTypes'
 
 const initialState = {
-	usersList: []
+	usersList: [],
+	nicknameFormShowed: false
 }
 
 export default function usersList(state = initialState, action){
 	switch(action.type){
 
-	case CONNECTED:
+	case actionTypes.CONNECTED:
 		return {...state, usersList: action.payload.usersList}
 
-	case USER_CONNECTED:
-
-		const newUser = {
+	case actionTypes.USER_CONNECTED:
+		return {...state, usersList: state.usersList.concat({
 			uid: [action.payload.uid],
 			nickname: action.payload.nickname
+		})}
+
+	case actionTypes.USER_DISCONNECTED:
+		return {...state, usersList: state.usersList.filter(
+			(elem) => {
+				return elem.uid != action.payload.uid ? true : false
+			})
 		}
 
-		return {...state, usersList: state.usersList.concat(newUser)}
+	case actionTypes.SHOW_NICKNAME_FORM:
+		return {...state, nicknameFormShowed: true}
 
-	case USER_DISCONNECTED:
-		const disconnectedUid = action.payload.uid
+	case actionTypes.HIDE_NICKNAME_FORM:
+		return {...state, nicknameFormShowed: false}
 
-		const newUsersList = state.usersList.filter((elem) => {
-			return elem.uid != disconnectedUid ? true : false
-		})
-
-		return {...state, usersList: newUsersList}
+	case actionTypes.USER_CHANGED_NICKNAME:
+		return {...state, 
+			usersList: state.usersList.map((elem) => {
+				if(elem.uid == action.payload.uid){
+					return {
+						uid: elem.uid,
+						nickname: action.payload.nickname
+					}
+				}else{
+					return elem
+				}
+			})
+		}
 
 	default:
 		return state
+
 	}
 }

@@ -1,9 +1,4 @@
-import { 
-	CONNECTING,
-	CONNECTED,
-	MESSAGE_SENDING,
-	MESSAGE_SENT,
-	DISCONNECT } from '../actionTypes'
+import * as actionTypes from '../actionTypes'
 
 const initialState = {
 	loaded: true,
@@ -14,34 +9,40 @@ const initialState = {
 
 export default function sockets(state = initialState, action) {
 	switch(action.type){
-	case CONNECTING:
+
+	case actionTypes.CONNECTING:
 		return {...state, 
 			loaded: true,
 			connected: false,
 			message: 'Connecting...'
 		}
-	case CONNECTED:
+
+	case actionTypes.CONNECTED:
 		return {...state, 
 			loaded: true,
 			connected: true,
 			message: 'Connected.',
 			socket: action.payload.socket
 		}
-	case MESSAGE_SENDING:
+
+	case actionTypes.MESSAGE_SENDING:
 		return {...state,
 			message: 'Message sending...'
 		}
-	case MESSAGE_SENT:
+
+	case actionTypes.MESSAGE_SENT:
 		return {...state,
 			message: 'Message sent.'
 		}
-	case DISCONNECT:
+
+	case actionTypes.DISCONNECT:
 		return {...state, 
 			loaded: true,
 			connected: false,
 			message: 'Disconnected.',
 			socket: undefined
 		}
+
 	default:
 		return state
 	}

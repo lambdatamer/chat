@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 
 export default class NotFound extends Component {
 	render() {
@@ -9,8 +9,4 @@ export default class NotFound extends Component {
 			</div>
 		)
 	}
-}
-
-NotFound.propTypes = {
-
 }

@@ -4,7 +4,7 @@ import { Message } from '..'
 import './style.css'
 
 export default class MessageList extends Component {
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate() {
 		const node = ReactDOM.findDOMNode(this)
 
 		if(node.scrollHeight - node.scrollTop - node.clientHeight === node.scrollHeight - this.prevHeight){

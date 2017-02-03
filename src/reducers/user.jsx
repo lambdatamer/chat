@@ -1,13 +1,15 @@
-import {
-	CHANGE_NICKNAME
-} from '../actionTypes'
+import * as actionTypes from '../actionTypes'
 
 const initialState = {
-	nickname: window.localStorage['nickname'] || ''
+	nickname: localStorage['nickname'] || ''
 }
 
 export default function user(state = initialState, action){
 	switch(action.type){
+	
+	case actionTypes.CHANGE_NICKNAME_SUCCESS:
+		return {...state, nickname: action.payload}
+
 	default:
 		return state
 	}

@@ -4,7 +4,7 @@ import './style.css'
 export default class MessageForm extends Component {
 	onInputKeyPress(e){
 		if(e.key == 'Enter' && !e.shiftKey){
-		e.preventDefault()
+			e.preventDefault()
 			this.sendMessage()
 		}
 	}
@@ -14,13 +14,12 @@ export default class MessageForm extends Component {
 	}
 	sendMessage(){
 		const message = this.refs.msgInput.innerText.trim()
-		console.log(message)
 
 		if(message){
 			this.props.send(message)
 		}
 		
-		this.refs.msgInput.innerText = ""
+		this.refs.msgInput.innerText = ''
 	}
 	componentDidMount(){
 		this.refs.msgInput.focus()

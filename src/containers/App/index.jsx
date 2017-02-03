@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../../actionCreators'
@@ -10,48 +10,38 @@ import {
 	UsersList } from '../../components'
 
 class App extends Component{
-	static propTypes = {
-		actions: PropTypes.object.isRequired,
-		sockets: PropTypes.object.isRequired,
-		messageList: PropTypes.object.isRequired
-	}
 
 	render(){
-		const { 
-			loaded, 
-			connected, 
-			message } = this.props.sockets
-		
 		const {
-			messages
-		} = this.props.messageList
-		
-		const {
-			usersList
-		} = this.props.usersList
-		
-		const { 
-			socketsConnect, 
-			socketsDisconnect, 
-			socketsSend } = this.props.actions
-		
+			sockets,
+			messageList,
+			user,
+			usersList,
+			actions
+		} = this.props
+
 		return (
 			<div className="container">
 				<DevPanel
-					loaded={loaded}
-					connected={connected}
-					message={message}
-					connect={socketsConnect}
-					disconnect={socketsDisconnect} />
+					loaded={sockets.loaded}
+					connected={sockets.connected}
+					message={sockets.message}
+					connect={actions.socketsConnect}
+					disconnect={actions.socketsDisconnect} />
 				<div className="row chat-app">
 					<div className="col-md-9">
 						<MessageWindow 
-							messages={messages}
-							socketsSend={socketsSend} />
+							messages={messageList.messages}
+							socketsSend={actions.socketsSend} />
 					</div>
 					<div className="col-md-3">
 						<UsersList
-							usersList={usersList} />
+							nicknameFormShowed={usersList.nicknameFormShowed}
+							usersList={usersList.usersList}
+							nickname={user.nickname}
+							changeNickname={actions.changeNickname}
+							showNicknameForm={actions.showNicknameForm}
+							hideNicknameForm={actions.hideNicknameForm} />
 					</div>
 				</div>
 
@@ -61,9 +51,12 @@ class App extends Component{
 }
 
 App.propTypes = {
-
+	actions: React.PropTypes.object.isRequired,
+	sockets: React.PropTypes.object.isRequired,
+	messageList: React.PropTypes.object.isRequired,
+	usersList: React.PropTypes.object.isRequired,
+	user: React.PropTypes.object.isRequired
 }
-
 
 function mapStateToProps(state){
 	return Object.assign({}, state)

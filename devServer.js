@@ -32,7 +32,7 @@ let clients = {}
 io.on('connection', (socket) => {
 
 	//Connecting
-	socket.on('auth', (msg) => {
+	socket.on('signIn', (msg) => {
 		let uid = msg.uid || undefined
 		let nickname = msg.nickname || undefined
 
@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
 		if(uid !== undefined && uid in clients){
 				clients[uid].connections.push(socket.id)
 		}else{
-			//Else check, is he already has nickname and uid
+			//Else check, is he already has a nickname and uid
 			//And generate them if needed
 			if(uid === undefined){
 				do{
@@ -131,10 +131,15 @@ io.on('connection', (socket) => {
 		
 		nicknameTemp = nicknameTemp.length > 32 ? nicknameTemp.slice(0, 31) : nicknameTemp
 
-		socket.nickname = clients[uid].nickname = msg.nickname
+		socket.nickname = clients[socket.uid].nickname = nicknameTemp
 		
 		socket.emit('nicknameChangeSuccess', {
 			nickname: socket.nickname
+		})
+		
+		socket.broadcast.emit('userChangedNickname', {
+			nickname: socket.nickname,
+			uid: socket.uid
 		})
 	})
 })

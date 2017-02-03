@@ -1,22 +1,21 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component} from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../../actionCreators'
 import Helmet from 'react-helmet'
-import { NavLink } from '../../components'
 import './style.css'
 
 class Nav extends Component {
-	componentDidMount() {
-		const ls = window.localStorage
-		if(!ls['nickname']){
+	componentDidMount(){
+
+		if(!localStorage['nickname']){
 			this.context.router.push('/hello')
 		}else{
 			this.context.router.push('/chat')
 		}
 	}
-	render() {
-		return (
+	render(){
+		return(
 			<div>
 				<Helmet title="Chat app"/>
 				{this.props.children}
@@ -26,7 +25,7 @@ class Nav extends Component {
 }
 
 Nav.contextTypes = {
-	router: PropTypes.object.isRequired
+	router: React.PropTypes.object.isRequired
 }
 
 Nav.propTypes = {

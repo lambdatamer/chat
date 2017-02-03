@@ -53,6 +53,7 @@ module.exports = {
 							]
 						}
 					},
+					{loader:"eslint-loader"}
 				]
 			},{
 				test: /\.css$/,

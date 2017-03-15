@@ -12,8 +12,8 @@ const sendIndex = (req, res) => {
 app.get('/chat', sendIndex)
 app.get('/login', sendIndex)
 
-const server = app.listen(3000, function () {
-	console.log("Listening on port 3000!")
+const server = app.listen(80function () {
+	console.log("Listening on port 80")
 })
 
 socketServer(server)

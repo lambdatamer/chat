@@ -1,4 +1,5 @@
 .message-window{
 	height: inherit;
 	position: relative;
+	margin: 0;
 }

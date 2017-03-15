@@ -48,7 +48,8 @@ function applySocketCallbacks(socket, dispatch){
 			type: actionTypes.CONNECTED,
 			payload: {
 				socket: socket,
-				usersList: msg.usersList || []
+				usersList: msg.usersList || [],
+				messages: msg.messages
 			}
 		})
 	})
@@ -116,5 +117,11 @@ export function showNicknameForm(){
 export function hideNicknameForm(){
 	return {
 		type: actionTypes.HIDE_NICKNAME_FORM
+	}
+}
+
+export function toggleUsersList(){
+	return {
+		type: actionTypes.TOGGLE_USERS_LIST
 	}
 }

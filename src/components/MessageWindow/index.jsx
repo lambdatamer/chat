@@ -3,11 +3,18 @@ import { MessageList, MessageForm } from '..'
 import './style.css'
 
 export default class MessageWindow extends Component {
+	hamburgerBtnClick(){
+		this.props.toggleUsersList()
+	}
 	render() {
 		const{ messages, socketsSend } = this.props
 		return (
 			<div className="panel panel-default message-window">
-				<div className="panel-heading">Chat</div>
+				<div className="panel-heading">
+					Chat
+					<span className="hidden-lg hidden-md glyphicon pull-right glyphicon-menu-hamburger"
+						onClick={::this.hamburgerBtnClick} />
+				</div>
 				<MessageList
 					messages={messages} />
 				<MessageForm

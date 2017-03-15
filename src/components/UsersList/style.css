@@ -1,4 +1,4 @@
-.user-list> div.panel-body{
+.userslist> div.panel-body{
 	background: #F5F5F5;
 	height: calc(100% - 40px);
 	border: 1px solid #ddd;
@@ -6,8 +6,9 @@
 	border-bottom-right-radius: 3px;
 }
 
-.user-list{
+.userslist{
 	height: 100%;
+	margin: 0px;
 }
 
 .nick-form{
@@ -27,4 +28,18 @@
 .nickname:hover>span>span{
 	width: auto;
 	opacity: 1;
+}
+
+.userslist-body{
+	overflow-x: hidden;
+}
+
+@media (max-width: 768px){
+	.userslist> div.panel-body{
+		border-radius: 0;
+		border-bottom: 0px;
+	}
+	.userslist> div.panel-body{
+		height: calc(100% - 82px);
+	}
 }

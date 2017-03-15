@@ -1,24 +1,29 @@
 import React, { Component} from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
+
 import * as actionCreators from '../../actionCreators'
 import Helmet from 'react-helmet'
 import './style.css'
 
 class Nav extends Component {
 	componentDidMount(){
-
+		const { history } = this.props
 		if(!localStorage['nickname']){
-			this.context.router.push('/hello')
+			history.push('/login')
 		}else{
-			this.context.router.push('/chat')
+			history.push('/chat')
 		}
 	}
 	render(){
 		return(
 			<div>
-				<Helmet title="Chat app"/>
-				{this.props.children}
+				<Helmet title="Chat app"
+					meta={[
+						{name: 'viewport', content: 'width=device-width, initial-scale=1'}
+					]}
+				/>
 			</div>
 		)
 	}
@@ -29,7 +34,7 @@ Nav.contextTypes = {
 }
 
 Nav.propTypes = {
-
+	history: React.PropTypes.object.isRequired
 }
 
 function mapStateToProps(state){
@@ -42,4 +47,6 @@ function mapDispatchToProps(dispatch){
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Nav)
+const navWithRouter = withRouter(Nav)
+
+export default connect(mapStateToProps, mapDispatchToProps)(navWithRouter)

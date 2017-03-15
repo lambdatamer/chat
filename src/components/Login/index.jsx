@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './style.css'
 
-export default class Intro extends Component {
+export default class Login extends Component {
 	onJoinBtnClick(){
 		localStorage['nickname'] = this.refs.NicknameField.value
 		location.reload()

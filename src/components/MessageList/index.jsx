@@ -20,7 +20,8 @@ export default class MessageList extends Component {
 		const { messages } = this.props
 
 		const list = messages.map((elem, index) => {
-			const time = (new Date(elem.time)).toLocaleTimeString()
+			const now = new Date(elem.time)
+			const time = now.toLocaleString()
 			const text = decodeURI(elem.text)
 			const name = elem.name
 			return (

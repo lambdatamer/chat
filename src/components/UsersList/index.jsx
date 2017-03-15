@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import './style.css'
 
 export default class UsersList extends Component {
+	hamburgerBtnClick(){
+		this.props.toggleUsersList()
+	}
 	onEditNicknameClick(){
 		this.props.showNicknameForm()
 	}
@@ -46,11 +49,13 @@ export default class UsersList extends Component {
 		)
 
 		return (
-			<div className="panel panel-default user-list">
+			<div className="panel panel-default userslist">
 				<div className="panel-heading">
 					Users
+					<span className="hidden-lg hidden-md glyphicon pull-right glyphicon-menu-hamburger"
+						onClick={::this.hamburgerBtnClick} />
 				</div>
-				<div className="panel-body">
+				<div className="panel-body userslist-body">
 					<table className="table">
 						<thead>
 							<tr>
@@ -61,6 +66,9 @@ export default class UsersList extends Component {
 						</thead>
 						<tbody>{users}</tbody>
 					</table>
+				</div>
+				<div className="panel-footer hidden-lg hidden-md">
+					<div className="text-center text-muted">Created by Alex Orphan</div>
 				</div>
 			</div>
 		)

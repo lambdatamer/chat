@@ -1,36 +1,44 @@
-let webpack = require('webpack')
-let WebpackDevServer = require('webpack-dev-server')
-let config = require('./webpack.config')
+const path = require('path')
+const express = require("express")
+const app = express()
 
-let wpds = new WebpackDevServer(webpack(config), {
-	publicPath: config.output.publicPath,
-	hot: true,
-	historyApiFallback: true,
-	proxy: {
-		'/socket.io/**': {
-			target: 'http://localhost:3001/socket.io/',
-			secure: false
-		}
-	}
+const webpack = require("webpack")
+const webpackConfig = require("./webpack.config")
+const compiler = webpack(webpackConfig)
+
+const webpackDevMiddleware = require("webpack-dev-middleware")
+
+
+app.use(webpackDevMiddleware(compiler, {
+	publicPath: webpackConfig.output.publicPath,
+	lazy: false,
+	watchOptions: {
+		aggregateTimeout: 300,
+		poll: true
+	},
+}))
+
+app.use(express.static('static'))
+
+const sendIndex = (req, res) => {
+	res.sendFile(path.resolve(__dirname, 'static/index.html'))
+}
+
+app.get('/chat', sendIndex)
+app.get('/login', sendIndex)
+
+app.get('/')
+
+const server = app.listen(3000, function () {
+	console.log("Listening on port 3000!")
 })
-.listen(3000, 'localhost', (err, result) => {
-	if (err) {
-		return console.log(err)
-	}
-
-	console.log('Listening at http://localhost:3000/')
-})
-
-/*
- * Socket.io
- */
-
-let io = require('socket.io').listen(3001)
 
 let clients = {}
+let messages = []
+
+const io = require('socket.io').listen(server)
 
 io.on('connection', (socket) => {
-
 	//Connecting
 	socket.on('signIn', (msg) => {
 		let uid = msg.uid || undefined
@@ -88,7 +96,8 @@ io.on('connection', (socket) => {
 		socket.emit('connected', {
 			uid: socket.uid,
 			nickname: socket.nickname,
-			usersList: usersList
+			usersList: usersList,
+			messages: messages
 		})
 
 		console.log("\nNow connected:")
@@ -119,11 +128,13 @@ io.on('connection', (socket) => {
 		let nickname = socket.nickname
 		let time = new Date()
 		let rawTime = time.getTime()
-		io.emit('messageReceived', {
+		let message = {
 			name: nickname,
 			text: msg,
 			time: rawTime
-		})
+		}
+		messages.push(message)
+		io.emit('messageReceived', message)
 	})
 
 	socket.on('nicknameChange', (msg) => {
@@ -143,6 +154,3 @@ io.on('connection', (socket) => {
 		})
 	})
 })
-
-
-console.log('Listening sockets at :3001')

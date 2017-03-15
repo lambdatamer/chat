@@ -28,20 +28,22 @@ class App extends Component{
 					message={sockets.message}
 					connect={actions.socketsConnect}
 					disconnect={actions.socketsDisconnect} />
-				<div className="row chat-app">
-					<div className="col-md-9">
-						<MessageWindow 
+				<div className="row chat-app ">
+					<div className={'col-md-9 messagewindow-wrapper ' + (messageList.hidden ? 'list-showed' : '')}>
+						<MessageWindow
 							messages={messageList.messages}
-							socketsSend={actions.socketsSend} />
+							socketsSend={actions.socketsSend}
+							toggleUsersList={actions.toggleUsersList} />
 					</div>
-					<div className="col-md-3">
+					<div className="col-md-3 userslist-wrapper">
 						<UsersList
 							nicknameFormShowed={usersList.nicknameFormShowed}
 							usersList={usersList.usersList}
 							nickname={user.nickname}
 							changeNickname={actions.changeNickname}
 							showNicknameForm={actions.showNicknameForm}
-							hideNicknameForm={actions.hideNicknameForm} />
+							hideNicknameForm={actions.hideNicknameForm}
+							toggleUsersList={actions.toggleUsersList} />
 					</div>
 				</div>
 

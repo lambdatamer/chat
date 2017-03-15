@@ -1,18 +1,24 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { render } from 'react-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 import configureStore from './store/configureStore'
-import { Router, browserHistory } from 'react-router'
-import { routes } from './router'
+import { App, Nav } from './containers'
+import { Login, NotFound } from './components'
 import './style.css'
+
 
 const store = configureStore()
 
-render(
+ReactDOM.render((
 	<Provider store={store}>
-		<Router history={browserHistory} routes={routes}>
+		<Router>
+			<div>
+				<Nav />
+				<Route path="/chat" component={App} />
+				<Route path="/login" component={Login} />
+			</div>
 		</Router>
-	</Provider>,
-	document.getElementById('root')
-)
-
+	</Provider>
+), document.getElementById('root'))

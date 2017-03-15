@@ -13,7 +13,7 @@ export default class Message extends Component {
 				<div className="message-time small hidden-xs">{time}</div>
 				<div className="message-text">{text}</div>
 				<div className="message-time small visible-xs">{time}</div>
-				<div className="clearfix"></div>
+				<div className="clearfix" />
 			</div>
 		)
 	}

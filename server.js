@@ -12,7 +12,9 @@ const sendIndex = (req, res) => {
 app.get('/chat', sendIndex)
 app.get('/login', sendIndex)
 
-const server = app.listen(80, function () {
+const port = process.env.PORT || 8080
+
+const server = app.listen(port, function () {
 	console.log("Listening on port 80")
 })
 

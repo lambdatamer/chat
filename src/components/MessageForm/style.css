@@ -1,17 +1,17 @@
 .message-form-text{
-	height: auto;
+  height: auto;
 }
 
 .message-form-text div{
-	height: auto;
+  height: auto;
 }
 
 .message-form{
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .send-btn-wrapper{
-	padding-left: 0;
+  padding-left: 0;
 }

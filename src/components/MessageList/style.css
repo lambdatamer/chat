@@ -1,13 +1,13 @@
 .message-list{
-	background: #F5F5F5;
-	overflow-x: hidden;
-	border: 1px solid #ddd;
-	border-bottom: 0px;
-	height: calc(100% - 96px);
-	position: relative;
+  background: #F5F5F5;
+  overflow-x: hidden;
+  border: 1px solid #ddd;
+  border-bottom: 0px;
+  height: calc(100% - 96px);
+  position: relative;
 }
 
 .scroll-btn{
-	position: fixed;
-	right: 0;
+  position: fixed;
+  right: 0;
 }

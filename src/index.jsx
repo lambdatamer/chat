@@ -12,13 +12,13 @@ import './style.css'
 const store = configureStore()
 
 ReactDOM.render((
-	<Provider store={store}>
-		<Router>
-			<div>
-				<Nav />
-				<Route path="/chat" component={App} />
-				<Route path="/login" component={Login} />
-			</div>
-		</Router>
-	</Provider>
+  <Provider store={store}>
+    <Router>
+      <div>
+        <Nav />
+        <Route path="/chat" component={App} />
+        <Route path="/login" component={Login} />
+      </div>
+    </Router>
+  </Provider>
 ), document.getElementById('root'))

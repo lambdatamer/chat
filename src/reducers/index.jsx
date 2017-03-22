@@ -5,5 +5,5 @@ import user from './user'
 import usersList from './userslist'
 
 export default combineReducers({
-	sockets, messageList, user, usersList
+  sockets, messageList, user, usersList
 })
